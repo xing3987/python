@@ -8,7 +8,7 @@ Created on Wed May 30 22:55:48 2018
 '''
 文件管理
 open(filename,model,buffering)
-filename:文件路径，注意/要转义成\\
+filename:文件路径，注意\要转义成\\
 modle：读取模式：r(只读),w(覆盖写入),rb(二进制形式打开只读),a(用于追加写入)
 '''
 
