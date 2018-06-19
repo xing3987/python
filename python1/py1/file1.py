@@ -17,14 +17,12 @@ f2=open('D:\\python\\python1\py1\\11.txt','r')
 line1=f1.read()
 line2=f2.readline()
 line3=f2.readlines()#得到f2的以行算的数祖
-print(line1)
-print(line2)
-print(line3)
+print('line1:',line1)
+print('line2:',line2)
+print('line3:',line3)
 
 for line in line3:
     print(line.split(",")[0])#如果一行有多个数可以分隔打印
-    print(line)
-
 
 '''
 csv文件的读取写入

@@ -35,10 +35,14 @@ class Student():
     def talk(self):
         print('hello everybody!')
         
+    def __hello(self):  #定义私有方法
+        print('hello everybody')
+        
 stu1=Student('tom','Franch')   
 stu1.talk()  
 stu2=Student('poly','Italia')   
-stu2.talk()    
+stu2.talk() 
+#stu2.__hello()私有方法调用出错  
 
 
 class Person():
