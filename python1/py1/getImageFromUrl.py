@@ -20,7 +20,7 @@ def load_page(url):
 def get_image(html):
     regx='http://[\S]*jpg'      #确定正则表达式匹配图片url
     pattern=re.compile(regx)          #匹配正则表达式   
-    get_image=re.findall(pattern,repr(html))  #获得匹配的数据集合
+    get_image=re.findall(pattern,repr(html))  #获得匹配的数据集合,函数str() 用于将值转化为适于人阅读的形式，而repr() 转化为供解释器读取的形式
     num=1
     for img in get_image:
         image=load_page(img) #加载图片
