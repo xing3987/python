@@ -23,6 +23,12 @@ print('line3:',line3)
 
 for line in line3:
     print(line.split(",")[0])#如果一行有多个数可以分隔打印
+    
+'''
+文件的写入
+f3=open('11.txt','w')
+f3.write('helloworld')
+'''    
 
 '''
 csv文件的读取写入

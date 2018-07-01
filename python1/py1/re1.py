@@ -61,6 +61,9 @@ def convert(value):
     
 sub2=re.sub('[sA]',convert,a)
 print(sub2)
+
+sub3=re.sub('s[\w]*a','*xx',a)  
+print(sub3)
     
     
 
