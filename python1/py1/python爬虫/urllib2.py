@@ -25,3 +25,27 @@ try:
 except urllib.error.URLError as e:
     if isinstance(e.reason,socket.timeout):
         print('TIME OUT')
+
+'''     
+Request类构建完整的请求
+class urllib.request.Request(url,data=None,headers={},origin_req_host=None,unverifiable=False,methd=None)
+    1.请求路径
+    2.bytes字节流数据
+    3.请求头
+    4.请求方的host或者ip
+    5.请求是否可验证
+    6.请求方法
+'''
+
+url='http://httpbin.org/post'
+headers={
+        'User-Agent':'Mozlla/4.0(compatible;MSIE 5.5;Windows NT)',
+        'Host':'httpbin.org'
+        }
+
+dict={'name':'Germey'}
+
+data=bytes(urllib.parse.urlencode(dict),encoding='utf8')
+req=urllib.request.Request(url,data,headers,'POST') #或urllib.request.Request(url=url,data=data,headers=headers,'POST')
+response=urllib.request.urlopen(req)
+print(response.read().decode('utf-8'))
