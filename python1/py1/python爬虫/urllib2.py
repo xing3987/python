@@ -49,3 +49,13 @@ data=bytes(urllib.parse.urlencode(dict),encoding='utf8')
 req=urllib.request.Request(url,data,headers,'POST') #或urllib.request.Request(url=url,data=data,headers=headers,'POST')
 response=urllib.request.urlopen(req)
 print(response.read().decode('utf-8'))
+
+
+
+
+
+
+
+
+
+
