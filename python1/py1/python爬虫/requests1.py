@@ -36,3 +36,4 @@ print(r.json) #直接返回json格式字典
 
 
 
+r.close()

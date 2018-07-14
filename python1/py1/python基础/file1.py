@@ -13,7 +13,7 @@ modle：读取模式：r(只读),w(覆盖写入),rb(二进制形式打开只读)
 '''
 
 f1=open('11.txt','r')
-f2=open('D:\\python\\python1\py1\\11.txt','r')
+f2=open('D:\\python\\python1\py1\\python基础\\11.txt','r')
 line1=f1.read()
 line2=f2.readline()
 line3=f2.readlines()#得到f2的以行算的数祖
