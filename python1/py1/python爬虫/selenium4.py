@@ -17,6 +17,13 @@ from urllib.parse import quote
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
+'''
+#chrome Headless模式(无界面模式)
+chrome_options=webdriver.ChromeOptions()
+chrome_options.add_argument('--headless')
+browser=webdriver.Chrome(chrome_options=chrome_options)
+'''
+
 browser=webdriver.Chrome()
 wait=WebDriverWait(browser,10)
 key="手机"
@@ -37,12 +44,50 @@ def index_page(page):
             #print(input,submit)
             input.send_keys(page)
             submit.click()
-        wait.until(EC.text_to_be_present_in_element((
-                By.CSS_SELECTOR,'#spulist-pager li.item.active>span'),str(page)))
+        
         wait.until(EC.presence_of_element_located((
-                By.CSS_SELECTOR,'#main .grid-left')))
-        print('加载完毕，开始分析页面')
+                By.CSS_SELECTOR,'.grid-item .grid-panel'))) #等待直到css选择的东西加载完毕
+        wait.until(EC.text_to_be_present_in_element((
+                By.CSS_SELECTOR,'#spulist-pager .item.active>span'),str(page)))        
+        get_product1()
     except TimeoutException:
         print("time out..page%s" %page)
         
-index_page(3)
+#定义爬取商品数据的函数
+from pyquery import PyQuery as pq
+def get_product1():
+    print('加载完毕，开始分析页面')
+    html=browser.page_source
+    doc=pq(html)
+    items=doc('.grid-item .grid-panel').items()
+    i=0
+    for item in items:
+        i=i+1
+        product={
+                'image':item.find('.img').attr('data-src'),
+                'price':item.find('.price').text(),
+                'title':item.find('.product-title').attr('title'),
+                'shop':item.find('.sale-row .week-sale').text()
+                }
+        if product.get('image')!=None:
+            save_to_mongo(product)
+            
+import pymongo
+#定义把商品信息存储到mongoDB的函数
+client=pymongo.MongoClient(host="localhost",port=27017)
+db=client.taobao
+collection=db.foods
+collection.drop()
+def save_to_mongo(result):
+    try:
+        if collection.insert_one(result):
+            print('存储到MongoDB成功')
+    except:
+        print('存储失败')
+
+#主函数
+if  __name__=="__main__":
+    for i in range(1,100):
+        index_page(i)
+
+
