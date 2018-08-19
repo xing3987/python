@@ -11,8 +11,8 @@ from urllib.request import ProxyHandler,build_opener
 #import urllib.request
 
 proxy_handler=ProxyHandler({
-        'http':'http://118.190.95.43:9001',
-        'https':'https://101.236.56.37:8866'
+        'http':'http://151.106.52.121:1080',
+        'https':'https://151.106.52.121:1080'
         })
 
 opener=build_opener(proxy_handler)

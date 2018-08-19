@@ -10,7 +10,7 @@ requests代理设置
 '''    
 import requests
 
-proxy='127.0.0.1:80'
+proxy='151.106.52.121:1080'
 proxies={
         'http':'http://'+proxy,
         'https':'https://'+proxy
