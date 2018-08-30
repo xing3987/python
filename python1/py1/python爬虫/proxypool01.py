@@ -35,8 +35,9 @@ class RedisClient(object):
         
     def random(self):
         #随机获取有效代理
-        result=self.db.zrevrange(redis_key,max_score,max_score) #zrevrange(key,a,b)返回key键中a到b大小的所有元素
+        result=self.db.zrangebyscore(redis_key,max_score,max_score) #zrangebyscore(key,a,b)返回key键中score的值a到b大小的所有元素
         if len(result):
+            print(result)
             return choice(result)
         else:
             result=self.db.zrevrange(redis_key,0,100)
