@@ -15,6 +15,15 @@ SPIDER_MODULES = ['scrapy01.spiders']
 NEWSPIDER_MODULE = 'scrapy01.spiders'
 
 
+#设定pipelines中类方法的优先级，越小越优先
+ITEM_PIPELINES={
+        'scrapy01.pipelines.ItemPipeline':300,
+        'scrapy01.pipelines.MongoPipeline':400      
+        }
+
+MONGO_URL='localhost'
+MONGO_PORT=27017
+MONGO_DB='scrapy01'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'scrapy01 (+http://www.yourdomain.com)'
 

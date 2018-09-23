@@ -18,13 +18,13 @@ def talk():
 def write():
     print('start write %r' %ctime())
     sleep(3)
-
+'''
 #########    定义main方法      ###########    
 if __name__=='__main__':
     for i in range(3):
         talk()
         write()
-        
+'''        
 #线程的应用
 def talk(content,loop):
     for i in range(loop):
@@ -50,7 +50,7 @@ if __name__=='__main__':
         t.join()
     print('all thread end!')
 
-
+'''
 #定义进程并调用
 processes=[]
 p1=multiprocessing.Process(target=talk,args=("hello world",2))
@@ -60,12 +60,13 @@ processes.append(p2)
 
 if __name__=='__main__':
     for p in processes:
+        print('process')
         p.start()
     for p in processes:
         p.join()
     print('end..')
 
-    
+'''    
 
 
 
