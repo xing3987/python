@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Scrapy settings for scrapy03 project
+# Scrapy settings for scrapy06 project
 #
 # For simplicity, this file contains only settings considered important or
 # commonly used. You can find more settings consulting the documentation:
@@ -8,19 +8,18 @@
 #     https://doc.scrapy.org/en/latest/topics/settings.html
 #     https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 #     https://doc.scrapy.org/en/latest/topics/spider-middleware.html
+MAX_PAGE=50
+BOT_NAME = 'scrapy06'
 
-BOT_NAME = 'scrapy03'
+SPIDER_MODULES = ['scrapy06.spiders']
+NEWSPIDER_MODULE = 'scrapy06.spiders'
 
-SPIDER_MODULES = ['scrapy03.spiders']
-NEWSPIDER_MODULE = 'scrapy03.spiders'
-
-MAX_PAGE=50  #爬取的最大页数
-
+SPLASH_URL='192.168.99.100:8050'
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-#USER_AGENT = 'scrapy03 (+http://www.yourdomain.com)'
+#USER_AGENT = 'scrapy06 (+http://www.yourdomain.com)'
 
 # Obey robots.txt rules
-ROBOTSTXT_OBEY = False #关闭自动权限匹配
+ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -47,15 +46,21 @@ ROBOTSTXT_OBEY = False #关闭自动权限匹配
 
 # Enable or disable spider middlewares
 # See https://doc.scrapy.org/en/latest/topics/spider-middleware.html
-#SPIDER_MIDDLEWARES = {
-#    'scrapy03.middlewares.Scrapy03SpiderMiddleware': 543,
-#}
+KEYWORDS='ipad'
+#scrapy-splash框架自动实现了脚本，不用去重写
+SPIDER_MIDDLEWARES = {
+    'scrapy_splash.SplashDeduplicateArgsMiddleware': 100,
+}
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'scrapy03.middlewares.Scrapy03DownloaderMiddleware': 543,
-#}
+
+#scrapy-splash框架自动实现了脚本，不用去重写
+DOWNLOADER_MIDDLEWARES = {
+    'scrapy_splash.SplashCookiesMiddleware':723,
+    'scrapy_splash.SplashMiddleware':725,
+    'scrapy.downloadermiddlewares.httpcompression.HttpCompressionMiddleware':810
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -66,22 +71,10 @@ ROBOTSTXT_OBEY = False #关闭自动权限匹配
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 MONGO_URI='localhost'
-MONGO_DB='images360'
-
-MYSQL_HOST='localhost'
-MYSQL_PORT=3306
-MYSQL_USER='root'
-MYSQL_PASSWORD='root'
-MYSQL_DATABASE='spiders'
-
-IMAGES_STORE='./images'  #配置图片下载路径，当前工程下的images文件夹
-
+MONGO_DB='scrapytaobao'
 ITEM_PIPELINES = {
-    'scrapy03.pipelines.MongoPipeline': 300,
-    'scrapy03.pipelines.MysqlPipeline': 310,
-    'scrapy03.pipelines.ImagePipeline': 320,
+    'scrapy06.pipelines.MongoPipeline': 300,
 }
-
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
 #AUTOTHROTTLE_ENABLED = True

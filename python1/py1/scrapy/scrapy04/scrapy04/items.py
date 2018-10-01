@@ -7,11 +7,8 @@
 
 import scrapy
 
-class ImageItem(scrapy.Item):
+
+class ImagesItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
-    collection=table='images'  #mysql和mongodb的talbe-name
-    id=scrapy.Field()
     url=scrapy.Field()
-    title=scrapy.Field()
-    thumb=scrapy.Field()

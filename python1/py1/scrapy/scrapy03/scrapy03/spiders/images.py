@@ -25,7 +25,7 @@ class ImagesSpider(scrapy.Spider):
         for image in result.get('list'): #抓取图片的id,标题,链接，缩略图
             item=ImageItem()
             item['id']=image.get('imageid')
-            item['url']=image.get('https://ps.ssl.qhmsg.com/t01fcb3feb9b4e5bc95.jpg')
+            item['url']=image.get('qhimg_url')
             item['title']=image.get('group_title')
-            item['thumb']=image.get('https://ps.ssl.qhmsg.com/sdr/238__/t01fcb3feb9b4e5bc95.jpg')
+            item['thumb']=image.get('qhimg_thumb_url')
             yield item
