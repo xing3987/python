@@ -1,0 +1,22 @@
+[INFO  - 2018-09-12T16:38:04.774Z] GhostDriver - Main - running on port 52588
+[INFO  - 2018-09-12T16:38:06.107Z] Session [398c9450-b6aa-11e8-9a72-cd9fd5a0cf8b] - page.settings - {"XSSAuditingEnabled":false,"javascriptCanCloseWindows":true,"javascriptCanOpenWindows":true,"javascriptEnabled":true,"loadImages":true,"localToRemoteUrlAccessEnabled":false,"userAgent":"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/538.1 (KHTML, like Gecko) PhantomJS/2.1.1 Safari/538.1","webSecurityEnabled":true}
+[INFO  - 2018-09-12T16:38:06.107Z] Session [398c9450-b6aa-11e8-9a72-cd9fd5a0cf8b] - page.customHeaders:  - {}
+[INFO  - 2018-09-12T16:38:06.108Z] Session [398c9450-b6aa-11e8-9a72-cd9fd5a0cf8b] - Session.negotiatedCapabilities - {"browserName":"phantomjs","version":"2.1.1","driverName":"ghostdriver","driverVersion":"1.2.0","platform":"windows-7-32bit","javascriptEnabled":true,"takesScreenshot":true,"handlesAlerts":false,"databaseEnabled":false,"locationContextEnabled":false,"applicationCacheEnabled":false,"browserConnectionEnabled":false,"cssSelectorsEnabled":true,"webStorageEnabled":false,"rotatable":false,"acceptSslCerts":false,"nativeEvents":true,"proxy":{"proxyType":"direct"}}
+[INFO  - 2018-09-12T16:38:06.108Z] SessionManagerReqHand - _postNewSessionCommand - New Session Created: 398c9450-b6aa-11e8-9a72-cd9fd5a0cf8b
+[ERROR - 2018-09-12T16:38:06.971Z] Session [398c9450-b6aa-11e8-9a72-cd9fd5a0cf8b] - page.onError - msg: ReferenceError: Can't find variable: c
+
+  phantomjs://platform/console++.js:263 in error
+[ERROR - 2018-09-12T16:38:06.972Z] Session [398c9450-b6aa-11e8-9a72-cd9fd5a0cf8b] - page.onError - stack:
+  sendLog (https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/plugins/every_cookie_4644b13.js:4)
+  (anonymous function) (https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/plugins/every_cookie_4644b13.js:5)
+
+  phantomjs://platform/console++.js:263 in error
+[INFO  - 2018-09-12T16:43:04.782Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T16:48:04.782Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T16:53:04.793Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T16:58:04.796Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T17:03:04.796Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T17:08:04.796Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T17:13:04.842Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T17:18:04.843Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW
+[INFO  - 2018-09-12T17:23:04.843Z] SessionManagerReqHand - _cleanupWindowlessSessions - Asynchronous Sessions clean-up phase starting NOW

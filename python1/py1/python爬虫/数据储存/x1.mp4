@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta charset="UTF-8" /> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" /> 
+  <meta name="referrer" content="never" /> 
+  <title>云解析</title> 
+  <style type="text/css">body,html,.dplayer{padding:0;margin:0;width:100%;height:100%;background-color:#000}a{text-decoration:none}</style> 
+ </head> 
+ <body>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/dplayer@latest/dist/DPlayer.min.css">
+<div id="dplayer"></div>
+<script src="https://cdn.jsdelivr.net/npm/cdnbye@0.2.5"></script>
+<script src="https://cdn.jsdelivr.net/npm/dplayer@latest"></script>
+<script>
+	function getQueryString(name) {  
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");  
+		var r = window.location.search.substr(1).match(reg);  
+		if (r != null) return decodeURI(r[2]);  
+		return null;  
+	}
+	var m3u8url = 'https://m3u8.cdnpan.com/'+getQueryString('id')+'.m3u8';
+	var auto = getQueryString('auto');
+	
+	if(auto=="0"){
+		autoplay = false;
+	}else{
+		autoplay = true;
+	}
+    var hlsjsConfig = {
+        debug: false,
+        maxBufferHole: 3,
+        p2pConfig: {
+            logLevel: 'warn',
+			announce: "https://tracker.cdnpan.com",
+            wsSignalerAddr: 'wss://free.freesignal.net/',
+        }
+    };
+	
+    var hls;
+	
+    var dp = new DPlayer({
+        container: document.getElementById('dplayer'),
+        autoplay:autoplay,
+        loop:true,
+        screenshot:true,
+        hotkey:true,
+        preload:'auto',
+        video: {
+            url: m3u8url,
+            type: 'customHls',
+            customType: {
+                'customHls': function (video, player) {
+                    var isMobile = navigator.userAgent.match(/iPad|iPhone|Linux|Android|iPod/i) != null;
+                    if (isMobile) {
+                        var html = '<video src="'+video.src+'" controls="controls" autoplay="autoplay" width="100%" height="100%"></video>';
+                        document.getElementById('dplayer').innerHTML = html;
+                    }else{
+                        hls = new Hls(hlsjsConfig);
+                        hls.loadSource(video.src);
+                        hls.attachMedia(video);
+                    }
+                }
+            }
+        }
+    });
+</script>
+</body>
+</html>
