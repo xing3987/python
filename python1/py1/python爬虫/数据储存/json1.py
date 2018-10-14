@@ -9,14 +9,14 @@ json数据必须要用{}大括号包裹，并且用“”双引号和：冒号�
 '''
 import json
 
-str1='''[{"name":"bob","gender":"male","birthday":"1992-10-18"}]'''
+str1='''[{"name":"bob","gender":"male","birthday":"1992-10-18"},{"name":"bobo","gender":"feale","birthday":"1990-10-18"}]'''
 
 print(type(str1))
 data=json.loads(str1)
 print(type(data))
 
 #读取json对象
-print(data[0]["name"])
+print(data[1]["name"])
 print(data[0].get('name')) #两种方法都可以取值
 print(data[0].get('number')) #当没有对应的键值为null
 print(data[0].get('number',2))  #get的第二个参数是默认值

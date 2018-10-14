@@ -19,4 +19,14 @@ class UserItem(scrapy.Item):
     follows_count=scrapy.Field()
     fans_count=scrapy.Field()
     weibos_count=scrapy.Field()
+    
+class UserRelationItem(scrapy.Item):
+    collection='user_relation'
+    id=scrapy.Field()
+    follows=scrapy.Field()
+    fans=scrapy.Field()
+
+    
+class WeiboItem(scrapy.Item):
+    collection='weibo'
 
