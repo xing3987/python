@@ -12,6 +12,8 @@ Created on Sun Aug 19 23:11:25 2018
 from proxypool01 import RedisClient
 from proxypool02 import Crawler
 
+#定义测试的url
+test_url='https://m.weibo.cn'
 pool_upper=10000
 
 class Getter():
@@ -35,10 +37,6 @@ class Getter():
                 for proxy in proxies:
                     self.redis.add(proxy)
                     
-'''
-getter=Getter()
-getter.run()
-'''
 
 '''
 定义一个类来检测代理是否可用,使用异步代理请求库aiohttp
@@ -48,7 +46,6 @@ import aiohttp
 import time
 
 status_code=[200]
-test_url='https://m.weibo.cn'
 batch_size=300
 
 class Tester(object):
@@ -91,10 +88,7 @@ class Tester(object):
         except Exception as e:
             print('测试器发生异常',e.args)
 
-'''
-test=Tester()
-test.run()
-'''
+
 
 
 

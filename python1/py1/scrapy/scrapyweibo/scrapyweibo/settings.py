@@ -15,6 +15,12 @@ SPIDER_MODULES = ['scrapyweibo.spiders']
 NEWSPIDER_MODULE = 'scrapyweibo.spiders'
 FEED_EXPORT_ENCODING = 'utf-8'
 
+MONGO_URL='192.168.1.100'
+MONGO_DB='scrapyweibo'
+
+#获取动态的代理
+PROXY_URL='http://127.0.0.1:7070/random'
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'scrapyweibo (+http://www.yourdomain.com)'
 
@@ -52,9 +58,9 @@ ROBOTSTXT_OBEY = False
 
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
-#DOWNLOADER_MIDDLEWARES = {
-#    'scrapyweibo.middlewares.ScrapyweiboDownloaderMiddleware': 543,
-#}
+DOWNLOADER_MIDDLEWARES = {
+    'scrapyweibo.middlewares.ProxyMiddleware': 555,
+}
 
 # Enable or disable extensions
 # See https://doc.scrapy.org/en/latest/topics/extensions.html
@@ -64,9 +70,11 @@ ROBOTSTXT_OBEY = False
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-#ITEM_PIPELINES = {
-#    'scrapyweibo.pipelines.ScrapyweiboPipeline': 300,
-#}
+ITEM_PIPELINES = {
+    'scrapyweibo.pipelines.WeiboPipeline': 300,
+    'scrapyweibo.pipelines.TimePipeline': 310,
+    'scrapyweibo.pipelines.MongoPipeline': 320
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html

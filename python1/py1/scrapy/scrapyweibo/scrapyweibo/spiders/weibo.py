@@ -7,7 +7,7 @@ import scrapy
 粉丝页：https://m.weibo.cn/api/container/getIndex?containerid=231051_-_fans_-_{uid}&page={page}
 微博列表：https://m.weibo.cn/api/container/getIndex?uid={uid}&type=uid&page={page}&containerid=107603{uid}
 '''
-from scrapyweibo.items import UserItem,UserRelationItem
+from scrapyweibo.items import UserItem,UserRelationItem,WeiboItem
 import json
 
 class WeiboSpider(scrapy.Spider):
@@ -56,7 +56,7 @@ class WeiboSpider(scrapy.Spider):
         #粉丝
         yield scrapy.Request(url=self.fan_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_fans,meta={'page':1,'uid':uid})
         #微博
-       # yield scrapy.Request(url=self.weibo_url.format(uid=uid,page=1),callback=self.parse_weibos,meta={'page':1,'uid':uid})
+        yield scrapy.Request(url=self.weibo_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_weibos,meta={'page':1,'uid':uid})
         
     def parse_follows(self,response):
         result=json.loads(response.text)
@@ -77,7 +77,7 @@ class WeiboSpider(scrapy.Spider):
                 yield user_relation_item
                 #下一页关注
                 page=response.meta.get('page')+1
-                yield scrapy.Request(url=self.follow_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
+                yield scrapy.Request(url=self.follow_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
                 
     def parse_fans(self,response):
         result=json.loads(response.text)
@@ -98,9 +98,42 @@ class WeiboSpider(scrapy.Spider):
                 yield user_relation_item
                 #下一页关注
                 page=response.meta.get('page')+1
-                yield scrapy.Request(url=self.follow_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
-                
+                yield scrapy.Request(url=self.follow_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
             
+    #爬取微博主页的具体内容
+    def parse_weibos(self,response):
+        result=json.loads(response.text)
+        if result.get('ok') and result.get('data').get('cards'):
+            weibos=result.get('data').get('cards')
+            for weibo in weibos:
+                mblog=weibo.get('mblog')
+                if mblog:
+                    weibo_item=WeiboItem()
+                    field_map={
+                            'id':'id',
+                            'attitudes_count':'attitudes_count',
+                            'comments_count':'comments_count',
+                            'reposts_count':'reposts_count',
+                            'picture':'original_pic',
+                            'pictures':'pics',
+                            'source':'source',
+                            'text':'text',
+                            'raw_text':'raw_text',
+                            'thumbnail':'thumbnail_pic',
+                            'created_at':'created_at'
+                            }
+                    for field,attr in field_map.items():
+                        weibo_item[field]=mblog.get(attr)
+                        weibo_item['user']=response.meta.get('uid')
+                        yield weibo_item
+                
+                #下一页微博
+                uid=response.meta.get('uid')
+                page=response.meta.get('page')+1
+                yield scrapy.Request(url=self.weibo_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_weibos,meta={'page':page,'uid':uid})
+                        
+        
+        
         
         
         
