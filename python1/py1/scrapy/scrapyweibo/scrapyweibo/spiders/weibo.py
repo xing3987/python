@@ -33,30 +33,31 @@ class WeiboSpider(scrapy.Spider):
             
     def parse_user(self,response):
         result=json.loads(response.text)
-        user_info=result.get('data').get('userInfo')
-        field_map={
-                    'id':'id',
-                    'name':'screen_name',
-                    'avatar':'profile_image_url',
-                    'cover':'cover_image_phone',
-                    'description':'description',
-                    'gender':'gender',
-                    'follows_count':'follow_count',
-                    'fans_count':'followers_count',
-                    'weibos_count':'statuses_count'
-                }
-        user_item=UserItem()
-        for field,attr in field_map.items():
-            user_item[field]=user_info.get(attr)
-        yield user_item
-                
-        #关注
-        uid=user_info.get('id')
-        yield scrapy.Request(url=self.follow_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_follows,meta={'page':1,'uid':uid})
-        #粉丝
-        yield scrapy.Request(url=self.fan_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_fans,meta={'page':1,'uid':uid})
-        #微博
-        yield scrapy.Request(url=self.weibo_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_weibos,meta={'page':1,'uid':uid})
+        if result.get('ok') and result.get('data').get('userInfo'):        
+            user_info=result.get('data').get('userInfo')
+            field_map={
+                        'id':'id',
+                        'name':'screen_name',
+                        'avatar':'profile_image_url',
+                        'cover':'cover_image_phone',
+                        'description':'description',
+                        'gender':'gender',
+                        'follows_count':'follow_count',
+                        'fans_count':'followers_count',
+                        'weibos_count':'statuses_count'
+                    }
+            user_item=UserItem()
+            for field,attr in field_map.items():
+                user_item[field]=user_info.get(attr)
+            yield user_item
+                    
+            #关注
+            uid=user_info.get('id')
+            yield scrapy.Request(url=self.follow_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_follows,meta={'page':1,'uid':uid})
+            #粉丝
+            yield scrapy.Request(url=self.fan_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_fans,meta={'page':1,'uid':uid})
+            #微博
+            yield scrapy.Request(url=self.weibo_url.format(uid=uid,page=1),headers=self.headers,callback=self.parse_weibos,meta={'page':1,'uid':uid})
         
     def parse_follows(self,response):
         result=json.loads(response.text)
@@ -67,17 +68,17 @@ class WeiboSpider(scrapy.Spider):
                     uid=follow.get('user').get('id')
                     yield scrapy.Request(url=self.user_url.format(uid=uid),headers=self.headers,callback=self.parse_user)
                 
-                #关注列表
-                uid=response.meta.get('uid')
-                user_relation_item=UserRelationItem()
-                all_follows=[{'id':follow.get('user').get('id'),'name':follow.get('user').get('screen_name')} for follow in follows]
-                user_relation_item['id']=uid
-                user_relation_item['follows']=all_follows
-                user_relation_item['fans']=[]
-                yield user_relation_item
-                #下一页关注
-                page=response.meta.get('page')+1
-                yield scrapy.Request(url=self.follow_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
+            #关注列表
+            uid=response.meta.get('uid')
+            user_relation_item=UserRelationItem()
+            all_follows=[{'id':follow.get('user').get('id'),'name':follow.get('user').get('screen_name')} for follow in follows]
+            user_relation_item['id']=uid
+            user_relation_item['follows']=all_follows
+            user_relation_item['fans']=[]
+            yield user_relation_item
+            #下一页关注
+            page=response.meta.get('page')+1
+            yield scrapy.Request(url=self.follow_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
                 
     def parse_fans(self,response):
         result=json.loads(response.text)
@@ -88,17 +89,17 @@ class WeiboSpider(scrapy.Spider):
                     uid=follow.get('user').get('id')
                     yield scrapy.Request(url=self.user_url.format(uid=uid),headers=self.headers,callback=self.parse_user)
                 
-                #关注列表
-                uid=response.meta.get('uid')
-                user_relation_item=UserRelationItem()
-                all_fans=[{'id':follow.get('user').get('id'),'name':follow.get('user').get('screen_name')} for follow in follows]
-                user_relation_item['id']=uid
-                user_relation_item['follows']=[]
-                user_relation_item['fans']=all_fans
-                yield user_relation_item
-                #下一页关注
-                page=response.meta.get('page')+1
-                yield scrapy.Request(url=self.follow_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
+            #关注列表
+            uid=response.meta.get('uid')
+            user_relation_item=UserRelationItem()
+            all_fans=[{'id':follow.get('user').get('id'),'name':follow.get('user').get('screen_name')} for follow in follows]
+            user_relation_item['id']=uid
+            user_relation_item['follows']=[]
+            user_relation_item['fans']=all_fans
+            yield user_relation_item
+            #下一页关注
+            page=response.meta.get('page')+1
+            yield scrapy.Request(url=self.follow_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_follows,meta={'page':page,'uid':uid})
             
     #爬取微博主页的具体内容
     def parse_weibos(self,response):
@@ -124,13 +125,13 @@ class WeiboSpider(scrapy.Spider):
                             }
                     for field,attr in field_map.items():
                         weibo_item[field]=mblog.get(attr)
-                        weibo_item['user']=response.meta.get('uid')
-                        yield weibo_item
+                    weibo_item['user']=response.meta.get('uid')
+                    yield weibo_item
                 
-                #下一页微博
-                uid=response.meta.get('uid')
-                page=response.meta.get('page')+1
-                yield scrapy.Request(url=self.weibo_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_weibos,meta={'page':page,'uid':uid})
+            #下一页微博
+            uid=response.meta.get('uid')
+            page=response.meta.get('page')+1
+            yield scrapy.Request(url=self.weibo_url.format(uid=uid,page=page),headers=self.headers,callback=self.parse_weibos,meta={'page':page,'uid':uid})
                         
         
         

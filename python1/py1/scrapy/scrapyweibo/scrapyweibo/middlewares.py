@@ -81,10 +81,12 @@ class ProxyMiddleware(object):
         
     #主方法(入口)
     def process_request(self,request,spider):
-        if request.meta.get('retry_times'): #判断是否爬取失败
+        if request.meta.get('download_timeout'): #判断是否爬取失败
             proxy=self.get_random_proxy()
+            print('使用代理：'+proxy)
             if proxy:
                 uri='https://{proxy}'.format(proxy=proxy)
                 request.meta['proxy']=uri  #把request的代理设置为uri
+
 
     

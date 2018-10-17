@@ -15,7 +15,7 @@ SPIDER_MODULES = ['scrapyweibo.spiders']
 NEWSPIDER_MODULE = 'scrapyweibo.spiders'
 FEED_EXPORT_ENCODING = 'utf-8'
 
-MONGO_URL='192.168.1.100'
+MONGO_URL='localhost'
 MONGO_DB='scrapyweibo'
 
 #获取动态的代理
@@ -71,9 +71,9 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'scrapyweibo.pipelines.WeiboPipeline': 300,
-    'scrapyweibo.pipelines.TimePipeline': 310,
-    'scrapyweibo.pipelines.MongoPipeline': 320
+    'scrapyweibo.pipelines.WeiboPipeline': 310,
+    'scrapyweibo.pipelines.TimePipeline': 320,
+    'scrapyweibo.pipelines.MongoPipeline': 330
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

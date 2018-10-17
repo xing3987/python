@@ -13,7 +13,7 @@ class WeiboPipeline(object):
             if item.get('created_at'):
                 item['created_at']=item['created_at'].strip()
                 item['created_at']=self.parse_time(item.get('created_at'))
-            return item
+        return item
     
     def parse_time(self,date):
         #过滤时间,统一成标准时间格式
@@ -29,11 +29,11 @@ class WeiboPipeline(object):
             date=re.match('昨天.*',date).group(1).strip()
             date=time.strftime('%Y-%m-%d',time.localtime()-24*60*60)+' '+date
         if re.match('\d{2}-\d{2}',date):
-            date=time.strftime('%Y-',time.localtime())+date+'00:00'
+            date=time.strftime('%Y-',time.localtime())+date+' 00:00'
         return date
     
 class TimePipeline(object):
-    def pocess_item(self,item,spider):
+    def process_item(self,item,spider):
         if isinstance(item,UserItem) or isinstance(item,WeiboItem):
             now=time.strftime('%Y-%m-%d %H:%M',time.localtime())
             item['crawled_at']=now
@@ -62,14 +62,23 @@ class MongoPipeline(object):
         self.client.close()
         
     def process_item(self,item,spider):
-        if isinstance(item,UserItem) or isinstance(item,WeiboItem):
+        if isinstance(item,UserItem):
             #第一个参数表示查询条件，第二个参数表示爬取对象，$set操作符表示爬到重复的数据可直接更新，同时不会删除已有的字段，第三个参数True表示数据不存在时直接插入
             self.db[item.collection].update({'id':item.get('id')},{'$set':item},True) 
+            
+        if isinstance(item,WeiboItem):
+            #第一个参数表示查询条件，第二个参数表示爬取对象，$set操作符表示爬到重复的数据可直接更新，同时不会删除已有的字段，第三个参数True表示数据不存在时直接插入
+            self.db[item.collection].update({'id':item.get('id')},{'$set':item},True)   
+            
         if isinstance(item,UserRelationItem):
-            self.db[item.collection].update({'id':item.get('id')},{'$addToSet':{
-                    'follows':{'$each':item['follows']},
-                    'fans':{'$each':item['fans']}
-                    }},True)
+            self.db[item.collection].update(
+                    {'id':item.get('id')},
+                    {'$addToSet':
+                        {
+                            'follows':{'$each':item['follows']},
+                            'fans':{'$each':item['fans']}
+                        }
+                    },True)
         return item
                 
 
