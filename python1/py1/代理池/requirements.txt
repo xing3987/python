@@ -1,0 +1,6 @@
+redis
+pyquery
+requests
+aiohttp
+asyncio
+flask

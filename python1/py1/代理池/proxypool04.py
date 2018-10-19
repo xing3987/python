@@ -34,7 +34,7 @@ def get_counts():
     return str(conn.count())
 
 if __name__=='__main__':
-    app.run()  #默认分配127.0.0.1:5000,也可以给端口run(api_host,api_port)
+    app.run()  
 
 
 

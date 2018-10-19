@@ -1,0 +1,13 @@
+setup.py
+scrapy02/__init__.py
+scrapy02/items.py
+scrapy02/middlewares.py
+scrapy02/pipelines.py
+scrapy02/settings.py
+scrapy02.egg-info/PKG-INFO
+scrapy02.egg-info/SOURCES.txt
+scrapy02.egg-info/dependency_links.txt
+scrapy02.egg-info/entry_points.txt
+scrapy02.egg-info/top_level.txt
+scrapy02/spiders/__init__.py
+scrapy02/spiders/httpbin.py
