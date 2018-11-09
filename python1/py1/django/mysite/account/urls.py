@@ -8,4 +8,5 @@ urlpatterns = [
     #path('login/', views.user_login, name='user_login'),
     path('login/',auth_views.LoginView.as_view(template_name='registration/login.html'),name="user_login"),
     path('loginout/',auth_views.LogoutView.as_view(template_name='registration/loginout.html'),name="user_loginout"),
+    path('register/',views.register,name="user_register"),
 ]
