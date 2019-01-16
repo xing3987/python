@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django import forms
 from django.contrib.auth.models import User
-from .models import UserProfile
+from .models import UserProfile,UserInfo
 
 class LoginForm(forms.Form):#form只能有实体定义的input框
     username=forms.CharField()
@@ -26,4 +26,14 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model=UserProfile
         fields=("birth","phone")
+        
+class UserInfoForm(forms.ModelForm):
+    class Meta:
+        model=UserInfo
+        fields=("school","company","profession","address","aboutme")
+        
+class UserForm(forms.ModelForm):
+    class Meta:
+        model=User
+        fields=("email",)
         
