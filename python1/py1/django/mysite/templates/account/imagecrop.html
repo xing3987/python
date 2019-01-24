@@ -21,7 +21,7 @@
 
 <script type="text/javascript" src="{% static 'js/jquery-1.11.1.min.js' %}"></script> 
 <script type="text/javascript" src="{% static 'js/cropbox.js' %}"></script>
-
+<script type="text/javascript" src="{% static 'js/csrf.js' %}"></script>
 <script type="text/javascript">
     $(window).load(function() {
     	//$('#btnCrop').click();$("#idName").css("cssText","background-color:red!important");
@@ -47,7 +47,15 @@
     		//getImg();
     	})
     	$('#btnCrop').on('click', function(){
-    		alert("图片上传喽");
+    		//alert("图片上传喽");
+    		$.ajax({
+        		url:'{% url "account:my_image" %}',
+        		type:'POST',
+        		data:{'img':img},
+        		success:function(e){
+            		location.href="{% url 'account:my-information' %}"
+        		},
+    		});
     	})
     	function getImg(){
     		img = cropper.getDataURL();
